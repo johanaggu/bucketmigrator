@@ -16,8 +16,9 @@ type downloader struct {
 	bucket      string
 }
 
-func NewNownloader(ctx context.Context, cfg Config) (*downloader, error) {
+func NewDownloader(ctx context.Context, cfg Config) (*downloader, error) {
 	conf, err := config.LoadDefaultConfig(ctx,
+		config.WithRegion(cfg.Region),
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(cfg.AccessKeyID, cfg.SecretKey, "")))
 	if err != nil {
 		return &downloader{}, err

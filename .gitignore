@@ -42,4 +42,7 @@ go.work
 # start.sh
 start.sh
 
+#temp files 
+.tmp
+.tmp/*
 # End of https://www.toptal.com/developers/gitignore/api/go,linux

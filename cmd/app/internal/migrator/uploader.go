@@ -19,6 +19,7 @@ type uploader struct {
 
 func NewUploader(ctx context.Context, cfg Config) (*uploader, error) {
 	conf, err := config.LoadDefaultConfig(ctx,
+		config.WithRegion(cfg.Region),
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(cfg.AccessKeyID, cfg.SecretKey, "")))
 	if err != nil {
 		return &uploader{}, err
