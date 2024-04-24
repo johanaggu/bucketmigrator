@@ -10,27 +10,41 @@ import (
 )
 
 func main() {
+	// Downloader client
+	downloaderAKID := os.Getenv("DOWNLOADER_AKID")
+	downloaderSecretKey := os.Getenv("DOWNLOADER_SECRET_KEY")
+	downloaderBucketName := "origin-bucket-migrator"
+	downloaderBucketRegion := "us-east-1"
+
 	d, err := migrator.NewDownloader(context.Background(), migrator.Config{
-		AccessKeyID: os.Getenv("DOWNLOADER_AKID"),
-		SecretKey: os.Getenv("DOWNLOADER_SECRET_KEY"),
-		Bucket: "origin-bucket-migrator",
-		Region: "us-east-1",
+		AccessKeyID: downloaderAKID,
+		SecretKey:   downloaderSecretKey,
+		Bucket:      downloaderBucketName,
+		Region:      downloaderBucketRegion,
 	})
 	if err != nil {
 		log.Fatal("error creating downloader", err)
 	}
 
+	// Uploader client
+	uploaderAKID := os.Getenv("UPLOADER_AKID")
+	uploaderSecretKey := os.Getenv("UPLOADER_SECRET_KEY")
+	uploaderBucketName := "destiny-bucket-migrator"
+	uploaderBucketRegion := "us-east-1"
+
 	u, err := migrator.NewUploader(context.Background(), migrator.Config{
-		AccessKeyID: os.Getenv("UPLOADER_AKID"),
-		SecretKey: os.Getenv("UPLOADER_SECRET_KEY"),
-		Bucket: "destiny-bucket-migrator",
-		Region: "us-east-1",
+		AccessKeyID: uploaderAKID,
+		SecretKey:   uploaderSecretKey,
+		Bucket:      uploaderBucketName,
+		Region:      uploaderBucketRegion,
 	})
 	if err != nil {
 		log.Fatal("error creating uploader", err)
 	}
 
+	// all objects to migrate
 	key := "motorcycles/duke.jpg"
+
 	f, err := os.Create(path.Join(".tmp", key))
 	if err != nil {
 		log.Fatal("error creating file", err)
